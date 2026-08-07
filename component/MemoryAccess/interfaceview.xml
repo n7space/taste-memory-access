@@ -1,40 +1,45 @@
-<InterfaceView version="1.3" asn1file="MemoryAccess.acn" UiFile="interfaceview.ui.xml" modifierHash="8f9a913">
-<Function id="{494eb3f8-2bcf-4259-b449-36e9bcb51766}" name="MemoryAccess" is_type="NO" language="SDL" default_implementation="default" fixed_system_element="NO" required_system_element="NO" instances_min="1" instances_max="1" startup_priority="1">
+<InterfaceView version="1.2" componentURL="/home/taste/.local/share/QtProject/QtCreator/components_library/.git_bares/MemoryAccess_bare">
+<Function id="{5790fddf-bc5b-4eca-b838-7a5a52ea6de2}" name="MemoryAccess" is_type="NO" language="C" default_implementation="default" fixed_system_element="NO" required_system_element="NO" instances_min="1" instances_max="1" startup_priority="1">
     <Property name="TASTE_IV_Properties::Default_Codegen" value="Ada"/>
-<Provided_Interface id="{5fdd4090-8055-4f27-943f-3e72b18d132e}" name="init" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+<Provided_Interface id="{c4f1c346-88ef-4023-b879-2c93ffc43e16}" name="memory_read" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="address" type="MemoryAccess-Address" encoding="NATIVE"/>
+    <Output_Parameter name="memdata" type="MemoryAccess-Data" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="MemoryAccess-Result" encoding="NATIVE"/>
 </Provided_Interface>
 
-<Provided_Interface id="{79ef1dfd-e32c-430f-919c-66d1aa12b3bb}" name="read_raw_memory" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+<Provided_Interface id="{2befc2da-3651-4294-95c3-bb4e8077609a}" name="memory_write" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="address" type="MemoryAccess-Address" encoding="NATIVE"/>
+    <Input_Parameter name="memdata" type="MemoryAccess-Data" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="MemoryAccess-Result" encoding="NATIVE"/>
 </Provided_Interface>
 
-<Provided_Interface id="{ee439538-d8dd-43d4-8a7b-6bcebbb2b056}" name="write_to_raw_memory" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+<Provided_Interface id="{be4d78fd-122f-4c79-9839-0d40f7fcc023}" name="memory_erase" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="address" type="MemoryAccess-Address" encoding="NATIVE"/>
+    <Input_Parameter name="size" type="MemoryAccess-Size" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="MemoryAccess-Result" encoding="NATIVE"/>
 </Provided_Interface>
 
-<Required_Interface id="{3192191b-d843-4307-aabb-fb80e3b8edf7}" name="flash_memory_read" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false">
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
-
-<Required_Interface id="{e8dea58b-e89e-45e5-a65f-1a650c2b7bb3}" name="flash_memory_write" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false">
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
-
-<Required_Interface id="{2a8ab8d9-5bee-464b-b704-c8649b010dee}" name="flash_memory_erase" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false">
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
-
-<Required_Interface id="{e15c2537-e943-411f-929e-10e7989fc97c}" name="flash_memory_sync" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false">
-    <Property name="Taste::InheritPI" value="true"/>
-    <Property name="Taste::Autonamed" value="false"/>
-</Required_Interface>
+<Provided_Interface id="{649aae98-490c-4d73-8604-ae491b8e4398}" name="init" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="flash_address" type="MemoryAccess-Address" encoding="NATIVE"/>
+    <Input_Parameter name="flash_size" type="MemoryAccess-Size" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="MemoryAccess-Result" encoding="NATIVE"/>
+</Provided_Interface>
 
     <Implementations>
-        <Implementation name="default" language="SDL"/>
+        <Implementation name="default" language="C"/>
     </Implementations>
 </Function>
-
-<Layer name="default" is_visible="true"/>
+<UI version="1.0" ><Entity id="{5790fddf-bc5b-4eca-b838-7a5a52ea6de2}"><Taste coordinates="60000 21000 105000 86000">
+</Taste>
+</Entity><Entity id="{c4f1c346-88ef-4023-b879-2c93ffc43e16}"><Taste coordinates="60000 43000">
+</Taste>
+</Entity><Entity id="{2befc2da-3651-4294-95c3-bb4e8077609a}"><Taste coordinates="60000 52000">
+</Taste>
+</Entity><Entity id="{be4d78fd-122f-4c79-9839-0d40f7fcc023}"><Taste coordinates="60000 61000">
+</Taste>
+</Entity><Entity id="{649aae98-490c-4d73-8604-ae491b8e4398}"><Taste coordinates="60000 34000">
+</Taste>
+</Entity>
+</UI>
 
 </InterfaceView>
