@@ -1,0 +1,23 @@
+# Ignore whole work directory
+work/*
+
+# Except work/system.asn
+!work/system.asn
+
+# Ignore qt creator cache directory
+.qtc_clangd
+
+# Ignore qt creator user files
+*.pro.user*
+
+# Ignore aadl files
+*.aadl
+
+# Except MEMORYACCESS source files
+!work/memoryaccess
+work/memoryaccess/*
+!work/memoryaccess/C
+work/memoryaccess/C/*
+!work/memoryaccess/C/src
+work/memoryaccess/C/src/*
+!work/memoryaccess/C/src/memoryaccess.c
