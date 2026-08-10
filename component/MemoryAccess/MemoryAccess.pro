@@ -2,7 +2,9 @@ TEMPLATE = lib
 CONFIG -= qt
 CONFIG += generateC
 
-DISTFILES +=  $(HOME)/tool-inst/share/taste-types/taste-types.asn
+DISTFILES +=  $(HOME)/tool-inst/share/taste-types/taste-types.asn \
+    memoryaccess.acn \
+    memoryaccess.asn
 DISTFILES += MemoryAccess.msc
 DISTFILES += interfaceview.xml
 DISTFILES += work/binaries/*.msc

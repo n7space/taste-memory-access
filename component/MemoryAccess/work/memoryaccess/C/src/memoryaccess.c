@@ -20,7 +20,7 @@ void memoryaccess_startup(void)
 {
 }
 
-void memoryaccess_PI_init( const asn1SccMemoryAccess_Address *IN_address, const asn1SccMemoryAccess_Size *IN_size, asn1SccMemoryAccess_Result *OUT_result)
+void memoryaccess_PI_init(asn1SccMemoryAccess_Result *OUT_result)
 {
     Efc* efc = NULL;
 #if defined(N7S_TARGET_SAMV71Q21)
@@ -44,14 +44,21 @@ void memoryaccess_PI_init( const asn1SccMemoryAccess_Address *IN_address, const 
     uint32_t flash_lock_region = EFC_GetResult(efc);
 
     flash_access.efc = efc;
-    flash_access.address = *IN_address;
-    flash_access.size = *IN_size;
+
+#if defined(N7S_TARGET_SAMV71Q21)
+    flash_access.address = 0x00400000u;
+#elif defined(N7S_TARGET_SAMRH71F20)
+   flash_access.address = 0x10000000u;
+#else
+#error "Unknown platform"
+#endif
+    flash_access.size = flash_size;
     flash_access.page_size = flash_page_size;
     flash_access.page_count = flash_access.size / flash_access.page_size;
     flash_access.lock_bits = flash_lock_bits;
     flash_access.lock_region_size = flash_lock_region;
     FLASHD_Initialize(&flash_access, 0, 0);
-    *OUT_result = 1;
+    *OUT_result = true;
 }
 
 void memoryaccess_PI_memory_read
@@ -61,7 +68,7 @@ void memoryaccess_PI_memory_read
 {
     void* address = (void*)(*IN_address);
     memcpy(OUT_memdata->arr, address, OUT_memdata->nCount);
-    *OUT_result = 1;
+    *OUT_result = true;
 }
 
 void memoryaccess_PI_memory_write
@@ -72,14 +79,14 @@ void memoryaccess_PI_memory_write
     if(*IN_address >= flash_access.address && *IN_address < flash_access.address + flash_access.size) {
         uint32_t result = FLASHD_Write(&flash_access, *IN_address, IN_memdata->arr, IN_memdata->nCount);
         if(result != 0) {
-            *OUT_result = 0;
+            *OUT_result = false;
         } else {
-            *OUT_result = 1;
+            *OUT_result = true;
         }
     } else {
         void* address = (void*)(*IN_address);
         memcpy(address, IN_memdata->arr, IN_memdata->nCount);
-        *OUT_result = 1;
+        *OUT_result = true;
     }
 }
 
@@ -91,12 +98,12 @@ void memoryaccess_PI_memory_erase(const asn1SccMemoryAccess_Address *IN_address,
         uint32_t pages_count = (page_offset + *IN_size) / flash_access.page_size;
         uint32_t result = FLASHD_ErasePages(&flash_access, page_address, pages_count);
         if(result != 0) {
-            *OUT_result = 0;
+            *OUT_result = false;
         } else {
-            *OUT_result = 1;
+            *OUT_result = true;
         }
     } else {
-        *OUT_result = 1;
+        *OUT_result = false;
     }
 }
 
