@@ -62,12 +62,13 @@ void memoryaccess_PI_init(asn1SccMemoryAccess_Result *OUT_result)
 }
 
 void memoryaccess_PI_memory_read
-      (const asn1SccMemoryAccess_Address *IN_address,
+      (const asn1SccMemoryAccess_Address *IN_address, const asn1SccMemoryAccess_Size *IN_size,
        asn1SccMemoryAccess_Data *OUT_memdata, asn1SccMemoryAccess_Result *OUT_result)
 
 {
     void* address = (void*)(*IN_address);
-    memcpy(OUT_memdata->arr, address, OUT_memdata->nCount);
+    memcpy(OUT_memdata->arr, address, *IN_size);
+    OUT_memdata->nCount = *IN_size;
     *OUT_result = true;
 }
 
