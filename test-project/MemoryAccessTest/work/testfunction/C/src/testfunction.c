@@ -10,7 +10,18 @@
 #include "testfunction.h"
 #include <stdint.h>
 
-static int counter = 0;
+typedef enum {
+    DO_INIT,
+    DO_ERASE_A,
+    DO_WRITE_A,
+    DO_READ_A,
+    DO_ERASE_B,
+    DO_WRITE_B,
+    DO_READ_B,
+    FINISHED,
+} TestState;
+
+static TestState currentState = DO_INIT;
 static bool fail = false;
 static bool success = false;
 
@@ -24,6 +35,8 @@ static const asn1SccMemoryAccess_Address flash_address = 0x10000000u;
 static uint32_t* inflashptr = (uint32_t*)(flash_address + 256 + 252); // last 4 bytes of second page
 #else
 #error "Unknown platform"
+static const asn1SccMemoryAccess_Address flash_address = 0x0u;
+static uint32_t* inflashptr = 0x0u;
 #endif
 
 void testfunction_startup(void)
@@ -53,16 +66,16 @@ static void after_write()
 
 void testfunction_PI_trigger(void)
 {
-    ++counter;
-    if(counter == 2) {
+    if(currentState == DO_INIT) {
         asn1SccMemoryAccess_Result result = false;
         testfunction_RI_init(&result);
         if(result == 0) {
             fail = true;
         }
+        currentState = DO_ERASE_A;
         after_init();
     }
-    if(counter == 3) {
+    if(currentState == DO_ERASE_A && !fail) {
         asn1SccMemoryAccess_Address address = (asn1SccMemoryAccess_Address)flash_address;
         asn1SccMemoryAccess_Size size = 8192;
         asn1SccMemoryAccess_Result result = false;
@@ -70,9 +83,10 @@ void testfunction_PI_trigger(void)
         if(result == 0) {
             fail = true;
         }
+        currentState = DO_WRITE_A;
         after_erase();
     }
-    if(counter == 5 && !fail)
+    if(currentState == DO_WRITE_A && !fail)
     {
         asn1SccMemoryAccess_Data data;
         data.arr[0] = 0x01;
@@ -85,9 +99,10 @@ void testfunction_PI_trigger(void)
         if(result == 0) {
             fail = true;
         }
+        currentState = DO_READ_A;
         after_write();
     }
-    if(counter == 7 && !fail)
+    if(currentState == DO_READ_A && !fail)
     {
         asn1SccMemoryAccess_Data data;
         asn1SccMemoryAccess_Address addr = (asn1SccMemoryAccess_Address)(inflashptr);
@@ -104,9 +119,10 @@ void testfunction_PI_trigger(void)
         if(data.arr[0] != 0x01 || data.arr[1] != 0x02 || data.arr[2] != 0x03 || data.arr[3] != 0x04) {
             fail = true;
         }
+        currentState = DO_ERASE_B;
         after_read();
     }
-    if(counter == 9 && !fail) {
+    if(currentState == DO_ERASE_B && !fail) {
         asn1SccMemoryAccess_Address address = (asn1SccMemoryAccess_Address)flash_address;
         asn1SccMemoryAccess_Size size = 8192;
         asn1SccMemoryAccess_Result result = false;
@@ -114,9 +130,10 @@ void testfunction_PI_trigger(void)
         if(result == 0) {
             fail = true;
         }
+        currentState = DO_WRITE_B;
         after_erase();
     }
-    if(counter == 11 && !fail)
+    if(currentState == DO_WRITE_B && !fail)
     {
         asn1SccMemoryAccess_Data data;
         data.arr[0] = 0xaa;
@@ -129,9 +146,10 @@ void testfunction_PI_trigger(void)
         if(result == 0) {
             fail = true;
         }
+        currentState = DO_READ_B;
         after_write();
     }
-    if(counter == 13 && !fail)
+    if(currentState == DO_READ_B && !fail)
     {
         asn1SccMemoryAccess_Data data;
         asn1SccMemoryAccess_Address addr = (asn1SccMemoryAccess_Address)(inflashptr);
@@ -147,6 +165,7 @@ void testfunction_PI_trigger(void)
         else {
             success = !fail;
         }
+        currentState = FINISHED;
         after_read();
     }
 }
