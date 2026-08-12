@@ -1,0 +1,59 @@
+# Ignore whole work directory
+work/*
+
+# Except work/system.asn
+!work/system.asn
+
+# Ignore qt creator cache directory
+.qtc_clangd
+
+# Ignore qt creator user files
+*.pro.user*
+
+# Ignore aadl files
+*.aadl
+
+# Except MEMORYACCESS source files
+!work/memoryaccess
+work/memoryaccess/*
+!work/memoryaccess/C
+work/memoryaccess/C/*
+!work/memoryaccess/C/src
+work/memoryaccess/C/src/*
+!work/memoryaccess/C/src/memoryaccess.c
+
+# Except TESTFUNCTION source files
+!work/testfunction
+work/testfunction/*
+!work/testfunction/C
+work/testfunction/C/*
+!work/testfunction/C/src
+work/testfunction/C/src/*
+!work/testfunction/C/src/testfunction.c
+
+# Except DATA_POOL source files
+!work/data_pool
+work/data_pool/*
+!work/data_pool/C
+work/data_pool/C/*
+!work/data_pool/C/src
+work/data_pool/C/src/*
+!work/data_pool/C/src/data_pool.c
+
+# Except FILESYSTEM source files
+!work/filesystem
+work/filesystem/*
+!work/filesystem/C
+work/filesystem/C/*
+!work/filesystem/C/src
+work/filesystem/C/src/*
+!work/filesystem/C/src/filesystem.c
+
+# Except MEMORYACCESSPROXY source files
+!work/memoryaccessproxy
+work/memoryaccessproxy/*
+!work/memoryaccessproxy/C
+work/memoryaccessproxy/C/*
+!work/memoryaccessproxy/C/src
+work/memoryaccessproxy/C/src/*
+!work/memoryaccessproxy/C/src/memoryaccessproxy.c

@@ -1,0 +1,43 @@
+MEMORYACCESSDEMO-DATAVIEW DEFINITIONS ::=
+BEGIN
+
+   MyInteger ::= INTEGER (0 .. 10000)
+
+ASW-MEMORY-IDENTIFIER ::= ENUMERATED {
+        ram-memory (1),
+        little-fs (2)
+}
+
+ASW-BOOLEAN ::= BOOLEAN
+
+ASW-EMPTY ::= SEQUENCE {}
+
+ASW-REPOSITORY-PATH-LENGTH ::= INTEGER (0..8)
+
+ASW-REPOSITORY-PATH ::= SEQUENCE { field-data IA5String (SIZE(0..8)) }
+
+ASW-FILE-NAME-LENGTH ::= INTEGER (0..32)
+
+ASW-FILE-NAME ::= SEQUENCE { field-data IA5String (SIZE(0..32)) }
+
+ASW-FILE-PATH-GENERIC ::= SEQUENCE {
+        repository-path ASW-REPOSITORY-PATH,
+        file-name ASW-FILE-NAME
+}
+
+ASW-FILE-PATH ::= ASW-FILE-PATH-GENERIC
+
+ASW-MEMORY-BASE ::= CHOICE {
+        ram-memory ASW-EMPTY,
+        little-fs ASW-FILE-PATH
+}
+
+ASW-MEMORY-OFFSET ::= INTEGER (0..8192)
+
+ASW-MEMORY-DATA-LENGTH ::= INTEGER (0..192)
+
+--asw-memory-data-maximum-size ROOT-UINT32 ::= 192
+ASW-MEMORY-DATA ::= SEQUENCE { field-data OCTET STRING (SIZE(0..192)) }
+
+END
+
