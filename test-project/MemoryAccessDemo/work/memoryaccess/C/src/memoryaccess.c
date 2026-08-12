@@ -14,6 +14,8 @@
 #include "flash.h"
 #include "efc.h"
 
+#define EFC_WAIT_STATE 6
+
 static FlashAccess flash_access;
 
 void memoryaccess_startup(void)
@@ -42,6 +44,8 @@ void memoryaccess_PI_init(asn1SccMemoryAccess_Result *OUT_result)
     }
     uint32_t flash_lock_bits = EFC_GetResult(efc);
     uint32_t flash_lock_region = EFC_GetResult(efc);
+
+    EFC_SetWaitState(efc, EFC_WAIT_STATE);
 
     flash_access.efc = efc;
 
