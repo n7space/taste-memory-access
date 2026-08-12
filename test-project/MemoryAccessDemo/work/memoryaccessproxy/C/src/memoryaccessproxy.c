@@ -76,6 +76,7 @@ void memoryaccessproxy_PI_memory_program
     asn1SccMemoryAccess_Address address = flash_address + (*IN_block_index * fs_block_size) + *IN_block_offset;
     asn1SccMemoryAccess_Data data;
     memcpy(data.arr, IN_buffer->arr, *IN_data_size);
+    data.nCount = *IN_data_size;
     memoryaccessproxy_RI_memory_write(&address, &data, &result);
     if(result == false) {
         *OUT_return_code = 1;

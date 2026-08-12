@@ -14,6 +14,7 @@ typedef enum
 {
     ISTATE_START,
     ISTATE_MEM_INITIALIZED,
+    ISTATE_MEM_ERASED,
     ISTATE_MEM_PROXY_INITIALIZED,
     ISTATE_FILESYSTEM_INITIALIZED,
     ISTATE_FILE_A_CREATED,
@@ -50,10 +51,25 @@ static void init_memory_access()
     }
 }
 
+static void erase_memory_block()
+{
+    asn1SccMemoryAccess_Address address = 0x00400000u;
+    asn1SccMemoryAccess_Size size = block_size;
+    asn1SccMemoryAccess_Result result = false;
+    testfunction_RI_memory_erase(&address, &size, &result);
+    if(result) {
+        internal_state = ISTATE_MEM_ERASED;
+    }
+    else {
+        fail = true;
+        dbg();
+    }
+}
+
 static void init_memory_access_proxy()
 {
-    asn1SccMEMORY_BLOCK_INDEX block_size;
-    testfunction_RI_MemoryAccessProxy_init(&block_size);
+    asn1SccMEMORY_BLOCK_INDEX block_size_arg = block_size;
+    testfunction_RI_MemoryAccessProxy_init(&block_size_arg);
     internal_state = ISTATE_MEM_PROXY_INITIALIZED;
 }
 
@@ -72,7 +88,7 @@ static void init_filesystem_access()
 static void create_file_a()
 {
     asn1SccLITTLE_FS_REPOSITORY_PATH file_path;
-    strcpy(file_path.field_data, "a.txt");
+    strcpy(file_path.field_data, "atxt");
     asn1SccLITTLE_FS_MAXIMUM_SIZE maximum_size = 0;
     asn1SccLITTLE_FS_ADDITIONAL_FILE_ATTRIBUTE file_attr;
     file_attr.field_data.nCount = 1;
@@ -93,7 +109,7 @@ static void create_file_a()
 static void write_file_a()
 {
     asn1SccLITTLE_FS_REPOSITORY_PATH file_path;
-    strcpy(file_path.field_data, "a.txt");
+    strcpy(file_path.field_data, "atxt");
     asn1SccLITTLE_FS_MEMORY_OFFSET memory_offset = 0;
     asn1SccLITTLE_FS_MEMORY_DATA memory_data;
     memory_data.field_data.nCount = 4;
@@ -118,7 +134,7 @@ static void write_file_a()
 static void read_file_a()
 {
     asn1SccLITTLE_FS_REPOSITORY_PATH file_path;
-    strcpy(file_path.field_data, "a.txt");
+    strcpy(file_path.field_data, "atxt");
     asn1SccLITTLE_FS_MEMORY_OFFSET memory_offset = 0;
     asn1SccLITTLE_FS_MEMORY_OFFSET memory_size = 4;
     asn1SccLITTLE_FS_MEMORY_DATA out_memory_data;
@@ -128,11 +144,11 @@ static void read_file_a()
                              &memory_size, &out_memory_data,
                              &result);
 
-    if (!result || !(out_memory_data.field_data.nCount == 4 &&
-                     out_memory_data.field_data.arr[0] == 'M' &&
-                     out_memory_data.field_data.arr[1] == 'O' &&
-                    out_memory_data.field_data.arr[2] == 'O' &&
-                    out_memory_data.field_data.arr[3] == 'N')) {
+    if (result && out_memory_data.field_data.nCount == 4 &&
+                  out_memory_data.field_data.arr[0] == 'M' &&
+                  out_memory_data.field_data.arr[1] == 'O' &&
+                  out_memory_data.field_data.arr[2] == 'O' &&
+                  out_memory_data.field_data.arr[3] == 'N') {
         internal_state = ISTATE_FILE_A_CHECKED;
     } else {
         fail = true;
@@ -154,6 +170,9 @@ void testfunction_PI_trigger(void)
         init_memory_access();
         break;
     case ISTATE_MEM_INITIALIZED:
+        erase_memory_block();
+        break;
+    case ISTATE_MEM_ERASED:
         init_memory_access_proxy();
         break;
     case ISTATE_MEM_PROXY_INITIALIZED:
