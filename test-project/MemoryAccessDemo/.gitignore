@@ -1,6 +1,9 @@
 # Ignore whole work directory
 work/*
 
+# Except Makefile.modelcheck
+!Makefile.modelcheck
+
 # Except work/system.asn
 !work/system.asn
 
