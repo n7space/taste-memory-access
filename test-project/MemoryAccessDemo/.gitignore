@@ -57,6 +57,10 @@ work/filesystem/C/*
 !work/filesystem/C/src
 work/filesystem/C/src/*
 !work/filesystem/C/src/filesystem.c
+!work/filesystem/C/src/lfs.c
+!work/filesystem/C/src/lfs.h
+!work/filesystem/C/src/lfs_util.c
+!work/filesystem/C/src/lfs_util.h
 
 # Except MEMORYACCESSPROXY source files
 !work/memoryaccessproxy
