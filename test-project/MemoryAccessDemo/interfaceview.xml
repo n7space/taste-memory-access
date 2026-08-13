@@ -1,0 +1,510 @@
+<InterfaceView version="1.3" asn1file="memoryaccess.acn" UiFile="interfaceview.ui.xml" modifierHash="383508e">
+<Function id="{5e8d29b5-a903-46fa-bdcb-ba8b410bcb78}" name="FileSystemProxy" is_type="NO" language="C" default_implementation="default" fixed_system_element="NO" required_system_element="NO" instances_max="1" instances_min="1" startup_priority="1">
+    <Property name="TASTE_IV_Properties::Default_Codegen" value="Ada"/>
+<Provided_Interface id="{fe08b81e-1d53-40aa-b7d0-68128f23e804}" name="read_object_memory" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="memory_base" type="ASW-MEMORY-BASE" encoding="NATIVE"/>
+    <Input_Parameter name="offset" type="ASW-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Input_Parameter name="length" type="ASW-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Output_Parameter name="content" type="ASW-MEMORY-DATA" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="ASW-BOOLEAN" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Provided_Interface id="{d5b7b9be-cee3-4767-9737-bb1cf327f5e7}" name="write_object_memory" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="memory_base" type="ASW-MEMORY-BASE" encoding="NATIVE"/>
+    <Input_Parameter name="offset" type="ASW-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Input_Parameter name="content" type="ASW-MEMORY-DATA" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="ASW-BOOLEAN" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Required_Interface id="{918d65bd-bd63-40c3-8146-e08426807c48}" name="read_file" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="file_path" type="LITTLE-FS-REPOSITORY-PATH" encoding="NATIVE"/>
+    <Input_Parameter name="offset" type="LITTLE-FS-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Input_Parameter name="length" type="LITTLE-FS-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Output_Parameter name="content" type="LITTLE-FS-MEMORY-DATA" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="LITTLE-FS-BOOLEAN" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface id="{bc7a7ace-aa75-418f-90de-b8f14f0a6f48}" name="write_to_file" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="file_path" type="LITTLE-FS-REPOSITORY-PATH" encoding="NATIVE"/>
+    <Input_Parameter name="offset" type="LITTLE-FS-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Input_Parameter name="content" type="LITTLE-FS-MEMORY-DATA" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="LITTLE-FS-BOOLEAN" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="C"/>
+    </Implementations>
+</Function>
+
+<Function id="{b7f74114-fc18-46b0-9681-09c159660c32}" name="MemoryAccessProxy" is_type="NO" language="C" default_implementation="default" fixed_system_element="NO" required_system_element="NO" instances_max="1" instances_min="1" startup_priority="1">
+    <Property name="TASTE_IV_Properties::Default_Codegen" value="Ada"/>
+<Provided_Interface id="{f320723f-6112-45de-8e23-4166d90957e6}" name="FileSystem_memory_read" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="block_index" type="MEMORY-BLOCK-INDEX" encoding="NATIVE"/>
+    <Input_Parameter name="block_offset" type="MEMORY-OFFSET" encoding="NATIVE"/>
+    <Output_Parameter name="buffer" type="MEMORY-DATA" encoding="NATIVE"/>
+    <Input_Parameter name="data_size" type="MEMORY-SIZE" encoding="NATIVE"/>
+    <Output_Parameter name="return_code" type="T-Int32" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Provided_Interface id="{404e6146-732f-4bb1-a5c0-db581ad11576}" name="memory_program" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="block_index" type="MEMORY-BLOCK-INDEX" encoding="NATIVE"/>
+    <Input_Parameter name="block_offset" type="MEMORY-OFFSET" encoding="NATIVE"/>
+    <Input_Parameter name="buffer" type="MEMORY-DATA" encoding="NATIVE"/>
+    <Input_Parameter name="data_size" type="MEMORY-SIZE" encoding="NATIVE"/>
+    <Output_Parameter name="return_code" type="T-Int32" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Provided_Interface id="{41bb9970-dba7-42d8-86ae-36b77fcd8dc1}" name="FileSystem_memory_erase" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="block_index" type="MEMORY-BLOCK-INDEX" encoding="NATIVE"/>
+    <Output_Parameter name="return_code" type="T-Int32" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Provided_Interface id="{0d64954b-6aab-4c74-9b48-e5a90ac2296f}" name="memory_sync" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Output_Parameter name="return_code" type="T-Int32" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Provided_Interface id="{740aea09-33a8-4ce1-afd7-ba049ad62948}" name="MemoryAccessProxy_init" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="block_size" type="MEMORY-BLOCK-INDEX" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Provided_Interface id="{2be15800-21c0-4153-84da-ea48c52afa3d}" name="write_raw_memory" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="memory_id" type="ASW-MEMORY-IDENTIFIER" encoding="NATIVE"/>
+    <Input_Parameter name="offset" type="ASW-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Input_Parameter name="content" type="ASW-MEMORY-DATA" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="ASW-BOOLEAN" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Provided_Interface id="{3d1fb426-da06-499b-a74d-b39c10389837}" name="read_raw_memory" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="memory_id" type="ASW-MEMORY-IDENTIFIER" encoding="NATIVE"/>
+    <Input_Parameter name="offset" type="ASW-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Input_Parameter name="length" type="ASW-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Output_Parameter name="content" type="ASW-MEMORY-DATA" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="ASW-BOOLEAN" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Required_Interface id="{816c47b9-f094-401c-a764-6798269ba94e}" name="memory_read" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="address" type="MemoryAccess-Address" encoding="NATIVE"/>
+    <Input_Parameter name="size" type="MemoryAccess-Size" encoding="NATIVE"/>
+    <Output_Parameter name="memdata" type="MemoryAccess-Data" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="MemoryAccess-Result" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface id="{e1ce44e8-a7d0-41f0-8ad4-939e7ef50ec6}" name="memory_write" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="address" type="MemoryAccess-Address" encoding="NATIVE"/>
+    <Input_Parameter name="memdata" type="MemoryAccess-Data" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="MemoryAccess-Result" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface id="{5c2c1b7b-13c3-430d-b4a9-1d38cbf34e05}" name="memory_erase" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="address" type="MemoryAccess-Address" encoding="NATIVE"/>
+    <Input_Parameter name="size" type="MemoryAccess-Size" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="MemoryAccess-Result" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="C"/>
+    </Implementations>
+</Function>
+
+<Function id="{2d54e9ca-1225-43a8-b090-77d36d98bfd4}" name="FileSystem" is_type="NO" language="C" default_implementation="default" fixed_system_element="NO" required_system_element="NO" instances_max="1" instances_min="1" startup_priority="2">
+    <Property name="TASTE_IV_Properties::Default_Codegen" value="Ada"/>
+<Provided_Interface id="{5d89e3da-7150-41d5-bff1-366fbf80ec79}" name="file_handling_create_file" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="object_path" type="LITTLE-FS-REPOSITORY-PATH" encoding="NATIVE"/>
+    <Input_Parameter name="maximum_size" type="LITTLE-FS-MAXIMUM-SIZE" encoding="NATIVE"/>
+    <Input_Parameter name="attributes" type="LITTLE-FS-ADDITIONAL-FILE-ATTRIBUTE" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="LITTLE-FS-BOOLEAN" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Provided_Interface id="{07a75fc6-1706-420f-8080-e950e78339fe}" name="file_handling_delete_file" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="object_path" type="LITTLE-FS-FILE-PATH" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="LITTLE-FS-BOOLEAN" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Provided_Interface id="{8453ae60-b439-4ee0-bdbe-6cefd16e3582}" name="read_file" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="file_path" type="LITTLE-FS-REPOSITORY-PATH" encoding="NATIVE"/>
+    <Input_Parameter name="offset" type="LITTLE-FS-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Input_Parameter name="length" type="LITTLE-FS-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Output_Parameter name="content" type="LITTLE-FS-MEMORY-DATA" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="LITTLE-FS-BOOLEAN" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Provided_Interface id="{b1c5d83c-f606-42ef-b1fe-a1bd2013f074}" name="write_to_file" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="file_path" type="LITTLE-FS-REPOSITORY-PATH" encoding="NATIVE"/>
+    <Input_Parameter name="offset" type="LITTLE-FS-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Input_Parameter name="content" type="LITTLE-FS-MEMORY-DATA" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="LITTLE-FS-BOOLEAN" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Provided_Interface id="{4292e102-5dc8-4599-adbb-be3d9e965c69}" name="report_content_of_repository_request" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="repository_path" type="LITTLE-FS-REPOSITORY-PATH" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Provided_Interface id="{ff9b6bde-e040-435b-9386-352fb80756bf}" name="init" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="read_size" type="T-UInt32" encoding="NATIVE"/>
+    <Input_Parameter name="prog_size" type="T-UInt32" encoding="NATIVE"/>
+    <Input_Parameter name="block_size" type="T-UInt32" encoding="NATIVE"/>
+    <Input_Parameter name="block_count" type="T-UInt32" encoding="NATIVE"/>
+    <Input_Parameter name="block_cycles" type="T-UInt32" encoding="NATIVE"/>
+    <Input_Parameter name="cache_size" type="T-UInt32" encoding="NATIVE"/>
+    <Input_Parameter name="lookahead_size" type="T-UInt32" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="T-Boolean" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Required_Interface id="{11af59d9-ac8d-407b-bb37-a0408a0a3d64}" name="memory_read" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="block_index" type="MEMORY-BLOCK-INDEX" encoding="NATIVE"/>
+    <Input_Parameter name="block_offset" type="MEMORY-OFFSET" encoding="NATIVE"/>
+    <Output_Parameter name="buffer" type="MEMORY-DATA" encoding="NATIVE"/>
+    <Input_Parameter name="data_size" type="MEMORY-SIZE" encoding="NATIVE"/>
+    <Output_Parameter name="return_code" type="T-Int32" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface id="{0181749a-a7f0-4f36-a6b3-fc6fed93d86e}" name="memory_program" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="block_index" type="MEMORY-BLOCK-INDEX" encoding="NATIVE"/>
+    <Input_Parameter name="block_offset" type="MEMORY-OFFSET" encoding="NATIVE"/>
+    <Input_Parameter name="buffer" type="MEMORY-DATA" encoding="NATIVE"/>
+    <Input_Parameter name="data_size" type="MEMORY-SIZE" encoding="NATIVE"/>
+    <Output_Parameter name="return_code" type="T-Int32" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface id="{0153d39f-e83b-4364-be23-5a020b9baede}" name="memory_erase" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="block_index" type="MEMORY-BLOCK-INDEX" encoding="NATIVE"/>
+    <Output_Parameter name="return_code" type="T-Int32" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface id="{0c2eaede-e583-4976-9a34-be03b0d3f853}" name="memory_sync" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Output_Parameter name="return_code" type="T-Int32" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface id="{2f3add3a-0135-4877-a836-e2c48c643cc3}" name="report_content_of_repository_request_respond" kind="Unprotected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0" is_observable="false" is_alarm="false">
+    <Input_Parameter name="repository_path" type="LITTLE-FS-REPOSITORY-PATH" encoding="NATIVE"/>
+    <Output_Parameter name="files" type="LITTLE-FS-REPOSITORY-OBJECTS" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="C"/>
+    </Implementations>
+</Function>
+
+<Function id="{8a33ebae-2e30-4bc4-83b3-475f05112e17}" name="testfunction" is_type="NO" language="C" default_implementation="default" fixed_system_element="NO" required_system_element="NO" instances_max="1" instances_min="1" startup_priority="1">
+    <Property name="TASTE_IV_Properties::Default_Codegen" value="Ada"/>
+<Provided_Interface id="{bc880348-5403-472a-813e-13309c7a3fb4}" name="report_content_of_repository_request_respond" kind="Unprotected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0" is_observable="false" is_alarm="false">
+    <Input_Parameter name="repository_path" type="LITTLE-FS-REPOSITORY-PATH" encoding="NATIVE"/>
+    <Output_Parameter name="files" type="LITTLE-FS-REPOSITORY-OBJECTS" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Provided_Interface id="{555e98b2-18f0-4381-8216-9443e08e6178}" name="trigger" kind="Cyclic" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" stack_size="8192" dispatch_offset="0" wcet="0" period="1000" priority="1">
+</Provided_Interface>
+
+<Required_Interface id="{9892daa4-f1e8-4a27-af08-33288bd5d91b}" name="MemoryAccess_init" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Output_Parameter name="result" type="MemoryAccess-Result" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface id="{1c0bccf3-ac74-407e-962c-e1128ca3470d}" name="init" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="read_size" type="T-UInt32" encoding="NATIVE"/>
+    <Input_Parameter name="prog_size" type="T-UInt32" encoding="NATIVE"/>
+    <Input_Parameter name="block_size" type="T-UInt32" encoding="NATIVE"/>
+    <Input_Parameter name="block_count" type="T-UInt32" encoding="NATIVE"/>
+    <Input_Parameter name="block_cycles" type="T-UInt32" encoding="NATIVE"/>
+    <Input_Parameter name="cache_size" type="T-UInt32" encoding="NATIVE"/>
+    <Input_Parameter name="lookahead_size" type="T-UInt32" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="T-Boolean" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface id="{9149423d-edc8-4c6a-a140-9e92217cdb60}" name="MemoryAccessProxy_init" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="block_size" type="MEMORY-BLOCK-INDEX" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface id="{7d52635c-cf11-48d3-b6f4-a1d3870eb7ae}" name="file_handling_create_file" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="object_path" type="LITTLE-FS-REPOSITORY-PATH" encoding="NATIVE"/>
+    <Input_Parameter name="maximum_size" type="LITTLE-FS-MAXIMUM-SIZE" encoding="NATIVE"/>
+    <Input_Parameter name="attributes" type="LITTLE-FS-ADDITIONAL-FILE-ATTRIBUTE" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="LITTLE-FS-BOOLEAN" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface id="{29049c03-efb9-45da-86b0-171df1f32325}" name="file_handling_delete_file" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="object_path" type="LITTLE-FS-FILE-PATH" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="LITTLE-FS-BOOLEAN" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface id="{9aba5806-6e87-4d49-b9df-1c2565a8fd64}" name="report_content_of_repository_request" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="repository_path" type="LITTLE-FS-REPOSITORY-PATH" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface id="{5017462d-95f3-4771-9d09-6e49d56a32a2}" name="data_pool_read_parameter_value" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="parameter_id" type="ASW-PARAMETER-IDENTIFIER" encoding="NATIVE"/>
+    <Output_Parameter name="parameter_value" type="ASW-PARAMETER-VALUE" encoding="NATIVE"/>
+    <Output_Parameter name="parameter_bit_length" type="ROOT-UINT32" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="ASW-BOOLEAN" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface id="{809d01c0-b11e-4d59-a19b-88fa2314397f}" name="read_file" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="file_path" type="LITTLE-FS-REPOSITORY-PATH" encoding="NATIVE"/>
+    <Input_Parameter name="offset" type="LITTLE-FS-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Input_Parameter name="length" type="LITTLE-FS-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Output_Parameter name="content" type="LITTLE-FS-MEMORY-DATA" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="LITTLE-FS-BOOLEAN" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface id="{59428674-4374-4040-9f6e-0047394219c1}" name="write_to_file" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="file_path" type="LITTLE-FS-REPOSITORY-PATH" encoding="NATIVE"/>
+    <Input_Parameter name="offset" type="LITTLE-FS-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Input_Parameter name="content" type="LITTLE-FS-MEMORY-DATA" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="LITTLE-FS-BOOLEAN" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+<Required_Interface id="{39f779a8-45fa-497e-b6e1-dad6416f208e}" name="memory_erase" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="address" type="MemoryAccess-Address" encoding="NATIVE"/>
+    <Input_Parameter name="size" type="MemoryAccess-Size" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="MemoryAccess-Result" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="true"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="C"/>
+    </Implementations>
+</Function>
+
+<Function id="{116ac0f3-4ae0-4aa7-a8a0-e275451650b2}" name="MemoryAccess" is_type="NO" language="C" default_implementation="default" fixed_system_element="NO" required_system_element="NO" componentURL="/home/taste/.local/share/QtProject/QtCreator/components_library/.git_bares/MemoryAccess_bare" instances_max="1" instances_min="1" startup_priority="1">
+    <Property name="TASTE_IV_Properties::Default_Codegen" value="Ada"/>
+<Provided_Interface id="{c24d85e1-a00f-405c-aa1f-340a919f7dab}" name="memory_read" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="address" type="MemoryAccess-Address" encoding="NATIVE"/>
+    <Input_Parameter name="size" type="MemoryAccess-Size" encoding="NATIVE"/>
+    <Output_Parameter name="memdata" type="MemoryAccess-Data" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="MemoryAccess-Result" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Provided_Interface id="{8d20370d-e41a-41e5-8650-1b0d9c9d300e}" name="memory_write" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="address" type="MemoryAccess-Address" encoding="NATIVE"/>
+    <Input_Parameter name="memdata" type="MemoryAccess-Data" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="MemoryAccess-Result" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Provided_Interface id="{2b02e0b1-2604-442f-bb04-e53e2cacade9}" name="memory_erase" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="address" type="MemoryAccess-Address" encoding="NATIVE"/>
+    <Input_Parameter name="size" type="MemoryAccess-Size" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="MemoryAccess-Result" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Provided_Interface id="{62baee6e-e932-42ec-9440-df01bc42bd9d}" name="init" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Output_Parameter name="result" type="MemoryAccess-Result" encoding="NATIVE"/>
+</Provided_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="C"/>
+    </Implementations>
+</Function>
+
+<Function id="{4e20d6ed-db0d-4651-aed9-8c3dbc8e5463}" name="data_pool" is_type="NO" language="C" default_implementation="default" fixed_system_element="NO" required_system_element="NO" instances_max="1" instances_min="1" startup_priority="1">
+    <Property name="TASTE_IV_Properties::Default_Codegen" value="Ada"/>
+<Provided_Interface id="{fd4e44be-9c02-46ff-9f56-284945e93d31}" name="data_pool_read_parameter_value" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="parameter_id" type="ASW-PARAMETER-IDENTIFIER" encoding="NATIVE"/>
+    <Output_Parameter name="parameter_value" type="ASW-PARAMETER-VALUE" encoding="NATIVE"/>
+    <Output_Parameter name="parameter_bit_length" type="ROOT-UINT32" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="ASW-BOOLEAN" encoding="NATIVE"/>
+</Provided_Interface>
+
+<Required_Interface id="{dd2e6c69-f064-4ddb-8b01-9d876f8cb058}" name="write_raw_memory" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="memory_id" type="ASW-MEMORY-IDENTIFIER" encoding="NATIVE"/>
+    <Input_Parameter name="offset" type="ASW-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Input_Parameter name="content" type="ASW-MEMORY-DATA" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="ASW-BOOLEAN" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface id="{c3f2cb8a-aea6-4b3f-9e21-8bc548ce67c7}" name="read_raw_memory" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="memory_id" type="ASW-MEMORY-IDENTIFIER" encoding="NATIVE"/>
+    <Input_Parameter name="offset" type="ASW-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Input_Parameter name="length" type="ASW-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Output_Parameter name="content" type="ASW-MEMORY-DATA" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="ASW-BOOLEAN" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface id="{d836e216-85c6-456e-b6db-9e6be9a59a62}" name="read_object_memory" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="memory_base" type="ASW-MEMORY-BASE" encoding="NATIVE"/>
+    <Input_Parameter name="offset" type="ASW-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Input_Parameter name="length" type="ASW-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Output_Parameter name="content" type="ASW-MEMORY-DATA" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="ASW-BOOLEAN" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+<Required_Interface id="{bcbd4be4-d811-4af9-9c3f-b37f949c149c}" name="write_object_memory" kind="Protected" enable_multicast="true" layer="default" required_system_element="NO" is_simulink_interface="false" wcet="0">
+    <Input_Parameter name="memory_base" type="ASW-MEMORY-BASE" encoding="NATIVE"/>
+    <Input_Parameter name="offset" type="ASW-MEMORY-OFFSET" encoding="NATIVE"/>
+    <Input_Parameter name="content" type="ASW-MEMORY-DATA" encoding="NATIVE"/>
+    <Output_Parameter name="result" type="ASW-BOOLEAN" encoding="NATIVE"/>
+    <Property name="Taste::InheritPI" value="true"/>
+    <Property name="Taste::Autonamed" value="false"/>
+</Required_Interface>
+
+    <Implementations>
+        <Implementation name="default" language="C"/>
+    </Implementations>
+</Function>
+
+<Connection id="{12b74685-cdf5-4db1-930a-161d35cb3102}" required_system_element="NO">
+    <Source iface_id="{9aba5806-6e87-4d49-b9df-1c2565a8fd64}" func_name="testfunction" ri_name="report_content_of_repository_request" />
+    <Target iface_id="{4292e102-5dc8-4599-adbb-be3d9e965c69}" func_name="FileSystem" pi_name="report_content_of_repository_request" />
+</Connection>
+
+<Connection id="{3fac7ad0-8031-4286-986f-2a5e4a2b80e6}" required_system_element="NO">
+    <Source iface_id="{59428674-4374-4040-9f6e-0047394219c1}" func_name="testfunction" ri_name="write_to_file" />
+    <Target iface_id="{b1c5d83c-f606-42ef-b1fe-a1bd2013f074}" func_name="FileSystem" pi_name="write_to_file" />
+</Connection>
+
+<Connection id="{0ac5cf90-ccdf-48cc-a46e-1bfa799046f1}" required_system_element="NO">
+    <Source iface_id="{0181749a-a7f0-4f36-a6b3-fc6fed93d86e}" func_name="FileSystem" ri_name="memory_program" />
+    <Target iface_id="{404e6146-732f-4bb1-a5c0-db581ad11576}" func_name="MemoryAccessProxy" pi_name="memory_program" />
+</Connection>
+
+<Connection id="{3679036f-2dd6-48ba-aa83-64e53c0c7319}" required_system_element="NO">
+    <Source iface_id="{c3f2cb8a-aea6-4b3f-9e21-8bc548ce67c7}" func_name="data_pool" ri_name="read_raw_memory" />
+    <Target iface_id="{3d1fb426-da06-499b-a74d-b39c10389837}" func_name="MemoryAccessProxy" pi_name="read_raw_memory" />
+</Connection>
+
+<Connection id="{084d5dcf-49b5-4011-b237-820dfb368038}" required_system_element="NO">
+    <Source iface_id="{bcbd4be4-d811-4af9-9c3f-b37f949c149c}" func_name="data_pool" ri_name="write_object_memory" />
+    <Target iface_id="{d5b7b9be-cee3-4767-9737-bb1cf327f5e7}" func_name="FileSystemProxy" pi_name="write_object_memory" />
+</Connection>
+
+<Connection id="{138d7753-2d36-4f0b-80f9-26c01967d692}" required_system_element="NO">
+    <Source iface_id="{816c47b9-f094-401c-a764-6798269ba94e}" func_name="MemoryAccessProxy" ri_name="memory_read" />
+    <Target iface_id="{c24d85e1-a00f-405c-aa1f-340a919f7dab}" func_name="MemoryAccess" pi_name="memory_read" />
+</Connection>
+
+<Connection id="{00d070f3-1ef2-4773-bf79-0d36e9836d2c}" required_system_element="NO">
+    <Source iface_id="{7d52635c-cf11-48d3-b6f4-a1d3870eb7ae}" func_name="testfunction" ri_name="file_handling_create_file" />
+    <Target iface_id="{5d89e3da-7150-41d5-bff1-366fbf80ec79}" func_name="FileSystem" pi_name="file_handling_create_file" />
+</Connection>
+
+<Connection id="{4fc8834f-b1b5-41d3-ab92-8285531c9e61}" required_system_element="NO">
+    <Source iface_id="{dd2e6c69-f064-4ddb-8b01-9d876f8cb058}" func_name="data_pool" ri_name="write_raw_memory" />
+    <Target iface_id="{2be15800-21c0-4153-84da-ea48c52afa3d}" func_name="MemoryAccessProxy" pi_name="write_raw_memory" />
+</Connection>
+
+<Connection id="{16b4a182-efad-4d2d-90b2-e9038fc82530}" required_system_element="NO">
+    <Source iface_id="{809d01c0-b11e-4d59-a19b-88fa2314397f}" func_name="testfunction" ri_name="read_file" />
+    <Target iface_id="{8453ae60-b439-4ee0-bdbe-6cefd16e3582}" func_name="FileSystem" pi_name="read_file" />
+</Connection>
+
+<Connection id="{c6a537c2-ffc3-4d6d-8344-23617658627d}" required_system_element="NO">
+    <Source iface_id="{bc7a7ace-aa75-418f-90de-b8f14f0a6f48}" func_name="FileSystemProxy" ri_name="write_to_file" />
+    <Target iface_id="{b1c5d83c-f606-42ef-b1fe-a1bd2013f074}" func_name="FileSystem" pi_name="write_to_file" />
+</Connection>
+
+<Connection id="{57334b80-0532-4d00-8f07-0974ee4923c2}" required_system_element="NO">
+    <Source iface_id="{e1ce44e8-a7d0-41f0-8ad4-939e7ef50ec6}" func_name="MemoryAccessProxy" ri_name="memory_write" />
+    <Target iface_id="{8d20370d-e41a-41e5-8650-1b0d9c9d300e}" func_name="MemoryAccess" pi_name="memory_write" />
+</Connection>
+
+<Connection id="{2ff8a41c-9cdb-43b8-8016-a430b1988c01}" required_system_element="NO">
+    <Source iface_id="{d836e216-85c6-456e-b6db-9e6be9a59a62}" func_name="data_pool" ri_name="read_object_memory" />
+    <Target iface_id="{fe08b81e-1d53-40aa-b7d0-68128f23e804}" func_name="FileSystemProxy" pi_name="read_object_memory" />
+</Connection>
+
+<Connection id="{bca34cd4-bd85-4cdf-98a4-1c71850470d6}" required_system_element="NO">
+    <Source iface_id="{5017462d-95f3-4771-9d09-6e49d56a32a2}" func_name="testfunction" ri_name="data_pool_read_parameter_value" />
+    <Target iface_id="{fd4e44be-9c02-46ff-9f56-284945e93d31}" func_name="data_pool" pi_name="data_pool_read_parameter_value" />
+</Connection>
+
+<Connection id="{365558a4-0945-41e9-9680-82528b774b49}" required_system_element="NO">
+    <Source iface_id="{0153d39f-e83b-4364-be23-5a020b9baede}" func_name="FileSystem" ri_name="memory_erase" />
+    <Target iface_id="{41bb9970-dba7-42d8-86ae-36b77fcd8dc1}" func_name="MemoryAccessProxy" pi_name="FileSystem_memory_erase" />
+</Connection>
+
+<Connection id="{982b7345-0845-4c61-abd9-09713e022588}" required_system_element="NO">
+    <Source iface_id="{0c2eaede-e583-4976-9a34-be03b0d3f853}" func_name="FileSystem" ri_name="memory_sync" />
+    <Target iface_id="{0d64954b-6aab-4c74-9b48-e5a90ac2296f}" func_name="MemoryAccessProxy" pi_name="memory_sync" />
+</Connection>
+
+<Connection id="{80855b97-f4ac-45a5-981e-f8c8d0a8cf1b}" required_system_element="NO">
+    <Source iface_id="{39f779a8-45fa-497e-b6e1-dad6416f208e}" func_name="testfunction" ri_name="memory_erase" />
+    <Target iface_id="{2b02e0b1-2604-442f-bb04-e53e2cacade9}" func_name="MemoryAccess" pi_name="memory_erase" />
+</Connection>
+
+<Connection id="{7a9aab7a-7ac1-49d7-a7d4-d17cd5dccd15}" required_system_element="NO">
+    <Source iface_id="{2f3add3a-0135-4877-a836-e2c48c643cc3}" func_name="FileSystem" ri_name="report_content_of_repository_request_respond" />
+    <Target iface_id="{bc880348-5403-472a-813e-13309c7a3fb4}" func_name="testfunction" pi_name="report_content_of_repository_request_respond" />
+</Connection>
+
+<Connection id="{1c06f320-c081-4bd1-9fa2-44b17c77cda9}" name="testfunction_MemoryAccess_init____MemoryAccess_init" required_system_element="NO">
+    <Source iface_id="{9892daa4-f1e8-4a27-af08-33288bd5d91b}" func_name="testfunction" ri_name="MemoryAccess_init" />
+    <Target iface_id="{62baee6e-e932-42ec-9440-df01bc42bd9d}" func_name="MemoryAccess" pi_name="init" />
+</Connection>
+
+<Connection id="{c53a129c-62cd-451f-8fa4-db6d6d23c69c}" required_system_element="NO">
+    <Source iface_id="{5c2c1b7b-13c3-430d-b4a9-1d38cbf34e05}" func_name="MemoryAccessProxy" ri_name="memory_erase" />
+    <Target iface_id="{2b02e0b1-2604-442f-bb04-e53e2cacade9}" func_name="MemoryAccess" pi_name="memory_erase" />
+</Connection>
+
+<Connection id="{e70e4c63-961e-4078-bca4-4e85d6af6462}" required_system_element="NO">
+    <Source iface_id="{29049c03-efb9-45da-86b0-171df1f32325}" func_name="testfunction" ri_name="file_handling_delete_file" />
+    <Target iface_id="{07a75fc6-1706-420f-8080-e950e78339fe}" func_name="FileSystem" pi_name="file_handling_delete_file" />
+</Connection>
+
+<Connection id="{520c08bc-5fd9-4d01-a61f-203086f873c8}" name="testfunction_MemoryAccessProxy_init____MemoryAccessProxy_MemoryAccessProxy_init" required_system_element="NO">
+    <Source iface_id="{9149423d-edc8-4c6a-a140-9e92217cdb60}" func_name="testfunction" ri_name="MemoryAccessProxy_init" />
+    <Target iface_id="{740aea09-33a8-4ce1-afd7-ba049ad62948}" func_name="MemoryAccessProxy" pi_name="MemoryAccessProxy_init" />
+</Connection>
+
+<Connection id="{2aaf8c45-f79c-48d3-873c-a5be5c1b80fb}" required_system_element="NO">
+    <Source iface_id="{918d65bd-bd63-40c3-8146-e08426807c48}" func_name="FileSystemProxy" ri_name="read_file" />
+    <Target iface_id="{8453ae60-b439-4ee0-bdbe-6cefd16e3582}" func_name="FileSystem" pi_name="read_file" />
+</Connection>
+
+<Connection id="{763adaf0-00c8-4601-961d-8da060770a1f}" required_system_element="NO">
+    <Source iface_id="{11af59d9-ac8d-407b-bb37-a0408a0a3d64}" func_name="FileSystem" ri_name="memory_read" />
+    <Target iface_id="{f320723f-6112-45de-8e23-4166d90957e6}" func_name="MemoryAccessProxy" pi_name="FileSystem_memory_read" />
+</Connection>
+
+<Connection id="{6b4f3949-9781-43a0-beaa-6705bb14a141}" required_system_element="NO">
+    <Source iface_id="{1c0bccf3-ac74-407e-962c-e1128ca3470d}" func_name="testfunction" ri_name="init" />
+    <Target iface_id="{ff9b6bde-e040-435b-9386-352fb80756bf}" func_name="FileSystem" pi_name="init" />
+</Connection>
+
+<Layer name="default" is_visible="true"/>
+
+</InterfaceView>

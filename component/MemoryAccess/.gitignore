@@ -21,3 +21,9 @@ work/memoryaccess/C/*
 !work/memoryaccess/C/src
 work/memoryaccess/C/src/*
 !work/memoryaccess/C/src/memoryaccess.c
+!work/memoryaccess/C/src/flashd.c
+!work/memoryaccess/C/src/flashd.h
+!work/memoryaccess/C/src/efc.h
+!work/memoryaccess/C/src/efc.c
+!work/memoryaccess/C/src/component_efc.h
+!work/memoryaccess/C/src/flash.h

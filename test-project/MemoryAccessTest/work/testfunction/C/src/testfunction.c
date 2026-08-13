@@ -63,6 +63,10 @@ static void after_write()
     asm volatile("nop");
 }
 
+static void after_success()
+{
+    asm volatile("nop");
+}
 
 void testfunction_PI_trigger(void)
 {
@@ -93,6 +97,7 @@ void testfunction_PI_trigger(void)
         data.arr[1] = 0x02;
         data.arr[2] = 0x03;
         data.arr[3] = 0x04;
+        data.nCount = 4;
         asn1SccMemoryAccess_Address addr = (asn1SccMemoryAccess_Address)(inflashptr);
         asn1SccMemoryAccess_Result result = false;
         testfunction_RI_memory_write(&addr, &data, &result);
@@ -140,6 +145,7 @@ void testfunction_PI_trigger(void)
         data.arr[1] = 0xbb;
         data.arr[2] = 0xcc;
         data.arr[3] = 0xdd;
+        data.nCount = 4;
         asn1SccMemoryAccess_Address addr = (asn1SccMemoryAccess_Address)(inflashptr);
         asn1SccMemoryAccess_Result result = false;
         testfunction_RI_memory_write(&addr, &data, &result);
@@ -167,6 +173,9 @@ void testfunction_PI_trigger(void)
         }
         currentState = FINISHED;
         after_read();
+        if(success) {
+            after_success();
+        }
     }
 }
 

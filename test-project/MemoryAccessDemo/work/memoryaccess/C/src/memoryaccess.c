@@ -72,6 +72,7 @@ void memoryaccess_PI_memory_read
 {
     void* address = (void*)(*IN_address);
     memcpy(OUT_memdata->arr, address, *IN_size);
+    memcpy(OUT_memdata->arr, address, *IN_size); // ad-hoc fix
     OUT_memdata->nCount = *IN_size;
     *OUT_result = true;
 }
