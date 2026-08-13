@@ -57,3 +57,12 @@ work/memoryaccessproxy/C/*
 !work/memoryaccessproxy/C/src
 work/memoryaccessproxy/C/src/*
 !work/memoryaccessproxy/C/src/memoryaccessproxy.c
+
+# Except FILESYSTEMPROXY source files
+!work/filesystemproxy
+work/filesystemproxy/*
+!work/filesystemproxy/C
+work/filesystemproxy/C/*
+!work/filesystemproxy/C/src
+work/filesystemproxy/C/src/*
+!work/filesystemproxy/C/src/filesystemproxy.c

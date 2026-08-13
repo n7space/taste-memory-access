@@ -91,36 +91,6 @@ void memoryaccessproxy_PI_memory_sync
     *OUT_return_code = 0;
 }
 
-
-void memoryaccessproxy_PI_read_object_memory(const asn1SccASW_MEMORY_BASE *IN_memory_base,
-                                             const asn1SccASW_MEMORY_OFFSET *IN_offset,
-                                             const asn1SccASW_MEMORY_OFFSET *IN_length,
-                                             asn1SccASW_MEMORY_DATA *OUT_content,
-                                             asn1SccASW_BOOLEAN *OUT_result)
-{
-        if(IN_memory_base->kind != ASW_MEMORY_BASE_little_fs_PRESENT) {
-            *OUT_result = false;
-            return;
-        }
-        asn1SccLITTLE_FS_REPOSITORY_PATH path = {.field_data = '\0' };
-        strncat(path.field_data, IN_memory_base->u.little_fs.repository_path.field_data, 9);
-        strncat(path.field_data, "/", 9);
-        strncat(path.field_data, IN_memory_base->u.little_fs.file_name.field_data, 9);
-        asn1SccLITTLE_FS_MEMORY_OFFSET offset = *IN_offset;
-        asn1SccLITTLE_FS_MEMORY_OFFSET length = *IN_length;
-        asn1SccLITTLE_FS_MEMORY_DATA data;
-        asn1SccLITTLE_FS_BOOLEAN result;
-        memoryaccessproxy_RI_read_file(&path, &offset, &length, &data, &result);
-        if(result == true) {
-            memcpy(OUT_content->field_data.arr, data.field_data.arr, length);
-            OUT_content->field_data.nCount = length;
-            *OUT_result = true;
-        } else {
-            *OUT_result = false;
-        }
-}
-
-
 void memoryaccessproxy_PI_read_raw_memory(const asn1SccASW_MEMORY_IDENTIFIER *IN_memory_identifier,
                                           const asn1SccASW_MEMORY_OFFSET *IN_offset,
                                           const asn1SccASW_MEMORY_OFFSET *IN_length,
@@ -146,28 +116,6 @@ void memoryaccessproxy_PI_read_raw_memory(const asn1SccASW_MEMORY_IDENTIFIER *IN
     OUT_content->field_data.nCount = data.nCount;
     *OUT_result = true;
 }
-
-
-void memoryaccessproxy_PI_write_object_memory(const asn1SccASW_MEMORY_BASE *IN_memory_base,
-                                              const asn1SccASW_MEMORY_OFFSET *IN_offset,
-                                              const asn1SccASW_MEMORY_DATA *IN_content,
-                                              asn1SccASW_BOOLEAN *OUT_result)
-{
-    if(IN_memory_base->kind != ASW_MEMORY_BASE_little_fs_PRESENT) {
-        *OUT_result = false;
-        return;
-    }
-    asn1SccLITTLE_FS_REPOSITORY_PATH path = {.field_data = '\0' };
-    strncat(path.field_data, IN_memory_base->u.little_fs.repository_path.field_data, 9);
-    strncat(path.field_data, "/", 9);
-    strncat(path.field_data, IN_memory_base->u.little_fs.file_name.field_data, 9);
-    asn1SccLITTLE_FS_MEMORY_OFFSET offset = *IN_offset;
-    asn1SccLITTLE_FS_MEMORY_DATA data;
-    memcpy(data.field_data.arr, IN_content->field_data.arr, IN_content->field_data.nCount);
-    data.field_data.nCount = IN_content->field_data.nCount;
-    memoryaccessproxy_RI_write_to_file(&path, &offset, &data, OUT_result);
-}
-
 
 void memoryaccessproxy_PI_write_raw_memory(const asn1SccASW_MEMORY_IDENTIFIER *IN_memory_identifier,
                                            const asn1SccASW_MEMORY_OFFSET *IN_offset,
