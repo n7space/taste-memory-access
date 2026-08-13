@@ -3,6 +3,8 @@ BEGIN
 
    MyInteger ::= INTEGER (0 .. 10000)
 
+ROOT-UINT32 ::= INTEGER(0..4294967295)
+
 ASW-MEMORY-IDENTIFIER ::= ENUMERATED {
         ram-memory (1),
         little-fs (2)
@@ -38,6 +40,15 @@ ASW-MEMORY-DATA-LENGTH ::= INTEGER (0..192)
 
 --asw-memory-data-maximum-size ROOT-UINT32 ::= 192
 ASW-MEMORY-DATA ::= SEQUENCE { field-data OCTET STRING (SIZE(0..192)) }
+
+ASW-PARAMETER-IDENTIFIER ::= ENUMERATED {
+        test-param-1 (1),
+        test-param-2 (2)
+}
+
+ASW-PARAMETER-VALUE ::= SEQUENCE { field-data OCTET STRING (SIZE(1..8)) }
+
+ASW-PARAMETER-VALUE-LENGTH ::= INTEGER (1..8)
 
 END
 

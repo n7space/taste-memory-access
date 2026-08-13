@@ -20,6 +20,8 @@ typedef enum
     ISTATE_FILE_A_CREATED,
     ISTATE_FILE_A_WRITTEN,
     ISTATE_FILE_A_CHECKED,
+    ISTATE_FLE_PARAM_CREATED,
+    ISTATE_PARAMETER_OBTAINED,
 } InternalState;
 
 static InternalState internal_state;
@@ -34,6 +36,16 @@ static const asn1SccT_UInt32 cache_size = 16;
 static const asn1SccT_UInt32 lookahead_size = 16;
 
 static void dbg()
+{
+    asm volatile ("nop");
+}
+
+static void success_step()
+{
+    asm volatile ("nop");
+}
+
+static void demo_finished()
 {
     asm volatile ("nop");
 }
@@ -100,6 +112,7 @@ static void create_file_a()
 
     if (result) {
         internal_state = ISTATE_FILE_A_CREATED;
+        success_step();
     } else {
         fail = true;
         dbg();
@@ -125,6 +138,7 @@ static void write_file_a()
 
     if (result) {
         internal_state = ISTATE_FILE_A_WRITTEN;
+        success_step();
     } else {
         fail = true;
         dbg();
@@ -150,9 +164,65 @@ static void read_file_a()
                   out_memory_data.field_data.arr[2] == 'O' &&
                   out_memory_data.field_data.arr[3] == 'N') {
         internal_state = ISTATE_FILE_A_CHECKED;
+        success_step();
     } else {
         fail = true;
         dbg();
+    }
+}
+
+static void create_file_param()
+{
+    asn1SccLITTLE_FS_REPOSITORY_PATH file_path;
+    strcpy(file_path.field_data, "param");
+    asn1SccLITTLE_FS_MAXIMUM_SIZE maximum_size = 0;
+    asn1SccLITTLE_FS_ADDITIONAL_FILE_ATTRIBUTE file_attr;
+    file_attr.field_data.nCount = 1;
+    file_attr.field_data.arr[0] = 0xab;
+    asn1SccLITTLE_FS_BOOLEAN result;
+
+    testfunction_RI_file_handling_create_file(&file_path, &maximum_size,
+                                              &file_attr, &result);
+
+    if (!result) {
+        fail = true;
+        dbg();
+        return;
+    }
+    asn1SccLITTLE_FS_MEMORY_OFFSET memory_offset = 0;
+    asn1SccLITTLE_FS_MEMORY_DATA memory_data;
+    memory_data.field_data.nCount = 4;
+    memory_data.field_data.arr[0] = 0x12;
+    memory_data.field_data.arr[1] = 0x34;
+    memory_data.field_data.arr[2] = 0x00;
+    memory_data.field_data.arr[3] = 0x00;
+
+    testfunction_RI_write_to_file(&file_path, &memory_offset,
+                                  &memory_data, &result);
+
+    if (result) {
+        internal_state = ISTATE_FLE_PARAM_CREATED;
+        success_step();
+    } else {
+        fail = true;
+        dbg();
+    }
+}
+
+static void read_parameter_value()
+{
+    asn1SccASW_PARAMETER_IDENTIFIER parameter_id = asn1SccASW_PARAMETER_IDENTIFIER_test_param_1;
+    asn1SccASW_PARAMETER_VALUE parameter_value;
+    asn1SccROOT_UINT32 bit_size = 0;
+    asn1SccASW_BOOLEAN result = false;
+    testfunction_RI_data_pool_read_parameter_value(&parameter_id, &parameter_value, &bit_size, &result);
+    if(!result) {
+        fail = true;
+        dbg();
+    }
+    else {
+        internal_state = ISTATE_PARAMETER_OBTAINED;
+        success_step();
     }
 }
 
@@ -188,6 +258,13 @@ void testfunction_PI_trigger(void)
         read_file_a();
         break;
     case ISTATE_FILE_A_CHECKED:
+        create_file_param();
+        return;
+    case ISTATE_FLE_PARAM_CREATED:
+        read_parameter_value();
+        break;
+    case ISTATE_PARAMETER_OBTAINED:
+        demo_finished();
         break;
     }
 }

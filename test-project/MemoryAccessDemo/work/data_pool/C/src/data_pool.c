@@ -8,24 +8,43 @@
     !! file. The up-to-date signatures can be found in the header file. !!
 */
 #include "data_pool.h"
-//#include <stdio.h>
+#include <string.h>
 
 
 void data_pool_startup(void)
 {
-   // Write your initialisation code
-   // You may call sporadic required interfaces and start timers
-   // puts ("[data_pool] Startup");
 }
 
 void data_pool_PI_data_pool_read_parameter_value
-      (const asn1SccMEMORY_BLOCK_INDEX *IN_parameter_id,
-       const asn1SccMEMORY_BLOCK_INDEX *IN_parameter_value,
-       const asn1SccMEMORY_BLOCK_INDEX *IN_parameter_bit_length,
-       const asn1SccMEMORY_BLOCK_INDEX *IN_result)
+      (const asn1SccASW_PARAMETER_IDENTIFIER *IN_parameter_id,
+       asn1SccASW_PARAMETER_VALUE *OUT_parameter_value,
+       asn1SccROOT_UINT32 *OUT_parameter_bit_length,
+       asn1SccASW_BOOLEAN *OUT_result)
 
 {
-   // Write your code here
+    if(*IN_parameter_id == asn1SccASW_PARAMETER_IDENTIFIER_test_param_1) {
+        asn1SccASW_MEMORY_BASE memory_base;
+        memory_base.kind = ASW_MEMORY_BASE_little_fs_PRESENT;
+        strcpy(memory_base.u.little_fs.repository_path.field_data, "");
+        strcpy(memory_base.u.little_fs.file_name.field_data, "param");
+        asn1SccASW_MEMORY_OFFSET offset = 0;
+        asn1SccASW_MEMORY_OFFSET size = 4;
+        asn1SccASW_MEMORY_DATA data;
+        asn1SccASW_BOOLEAN result = false;
+        data_pool_RI_read_object_memory(&memory_base, &offset, &size, &data, &result);
+        if(!result) {
+            *OUT_result = false;
+        } else {
+            memcpy(OUT_parameter_value->field_data.arr, data.field_data.arr, 4);
+            OUT_parameter_value->field_data.nCount = 4;
+            *OUT_parameter_bit_length = 32;
+            *OUT_result = true;
+        }
+    }
+    else if (*IN_parameter_id == asn1SccASW_PARAMETER_IDENTIFIER_test_param_2) {
+        *OUT_result = false;
+    }
+    else {
+        *OUT_result = false;
+    }
 }
-
-
