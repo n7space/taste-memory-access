@@ -221,8 +221,18 @@ static void read_parameter_value()
         dbg();
     }
     else {
-        internal_state = ISTATE_PARAMETER_OBTAINED;
-        success_step();
+        if(bit_size != 32
+            || parameter_value.field_data.nCount != 4
+            || parameter_value.field_data.arr[0] != 0x12
+            || parameter_value.field_data.arr[1] != 0x34
+            || parameter_value.field_data.arr[2] != 0x00
+            || parameter_value.field_data.arr[3] != 0x00) {
+            fail = true;
+            dbg();
+        } else {
+            internal_state = ISTATE_PARAMETER_OBTAINED;
+            success_step();
+        }
     }
 }
 
